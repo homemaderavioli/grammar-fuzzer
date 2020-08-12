@@ -13,10 +13,14 @@ fn syntax_diagram_expr(expansion: &str) -> String {
     lazy_static! {
         static ref RE: Regex = Regex::new(r"(<[^<> ]*>)").unwrap();
     }
-    let symbols: Vec<&str> = RE.split(expansion)
-                                //.map(|e| e.as_str())
-                                .filter(|&e| e != "")
-                                .collect();
+    let symbols = Vec::new();
+    for a in RE.captures_iter(expansion) {
+        println!("{:#?}", a);
+    }
+    for a in RE.split(expansion) {
+        println!("{:#?}", a);
+    }
+
     println!("{:#?}", symbols);
     let mut seq = Sequence::default();
     seq.push(Box::new(Start));
@@ -209,18 +213,18 @@ fn main() {
     tests();
 
     let expr_grammar = build_expr_grammer();
-    //print_grammar(&expr_grammar);
+    print_grammar(&expr_grammar);
 
-    //println!("{:#?}", expr_grammar.get("<digit>"));
+    println!("{:#?}", expr_grammar.get("<digit>"));
     create_syntax_diagram(&expr_grammar, "<expr>");
 
-    //for _ in 1..10 {
-    //    println!("{}", simple_grammar_fuzzer(
-    //        &expr_grammar,
-    //        "<start>".to_string(),
-    //        10,
-    //        100,
-    //        false
-    //    ));
-    //}
+    for _ in 1..10 {
+        println!("{}", simple_grammar_fuzzer(
+            &expr_grammar,
+            "<start>".to_string(),
+            10,
+            100,
+            false
+        ));
+    }
 }
